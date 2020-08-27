@@ -20,7 +20,8 @@ public class CredentialsUser implements Serializable {
     private String firebaseDeviceToken;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "credentialsUser", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_idPerson", referencedColumnName = "id")
     private Person person;
 
     public CredentialsUser() {
@@ -31,4 +32,22 @@ public class CredentialsUser implements Serializable {
         this.password = password;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    @Override
+    public String toString() {
+        return "CredentialsUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firebaseDeviceToken='" + firebaseDeviceToken + '\'' +
+                ", person=" + person.getId() +
+                '}';
+    }
 }

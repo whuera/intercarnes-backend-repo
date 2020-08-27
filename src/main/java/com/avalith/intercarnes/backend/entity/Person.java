@@ -15,7 +15,6 @@ import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @Entity
 public class Person implements Serializable {
@@ -36,12 +35,25 @@ public class Person implements Serializable {
     private String typeUser;
     private String email;
     private String status;
+    private String tokenCarrier;
+    private String licensePlate;
+
+    public Person() {
+    }
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
-    @JoinColumn(name = "fk_userCredentials")
+    @JoinColumn(name = "fk_userCredentials", referencedColumnName = "id")
     private CredentialsUser credentialsUser;
+
+    public CredentialsUser getCredentialsUser() {
+        return credentialsUser;
+    }
+
+    public void setCredentialsUser(CredentialsUser credentialsUser) {
+        this.credentialsUser = credentialsUser;
+    }
 
     @ManyToMany
     @JoinTable(name="person_roles"
@@ -50,5 +62,32 @@ public class Person implements Serializable {
     )
     private Set<Role> roles;
 
+    @PrePersist
+    void preInsert(){
+        if(this.status == null)
+            this.status = "INACTIVE";
+    }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", renspa='" + renspa + '\'' +
+                ", businessName='" + businessName + '\'' +
+                ", cuit='" + cuit + '\'' +
+                ", isBlocked=" + isBlocked +
+                ", issuedDte=" + issuedDte +
+                ", saleCommission=" + saleCommission +
+                ", purchaseCommission=" + purchaseCommission +
+                ", typeUser='" + typeUser + '\'' +
+                ", email='" + email + '\'' +
+                ", status='" + status + '\'' +
+                ", credentialsUser=" + credentialsUser +
+                ", roles=" + roles +
+                '}';
+    }
 }
