@@ -1,10 +1,13 @@
 package com.avalith.intercarnes.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -15,7 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Person {
+public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,10 +37,10 @@ public class Person {
     private String email;
     private String status;
 
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_idCredentialsUser", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
+    @JoinColumn(name = "fk_userCredentials")
     private CredentialsUser credentialsUser;
 
     @ManyToMany

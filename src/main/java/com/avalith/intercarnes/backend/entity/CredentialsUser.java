@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @ToString
 @Entity
-public class CredentialsUser {
+public class CredentialsUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,7 +20,7 @@ public class CredentialsUser {
     private String firebaseDeviceToken;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "credentialsUser", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "credentialsUser", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     private Person person;
 
     public CredentialsUser() {

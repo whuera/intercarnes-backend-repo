@@ -12,7 +12,7 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
     public Person create(Person person){
-        return personRepository.save(person);
+        return personRepository.saveAndFlush(person);
     }
 
     public List<Person> getAllPerson(){
