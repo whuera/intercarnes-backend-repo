@@ -1,9 +1,11 @@
 package com.avalith.intercarnes.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -16,7 +18,7 @@ import javax.persistence.*;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long iDPerson;
+    private Long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -30,17 +32,20 @@ public class Person {
     private float purchaseCommission;
     private String typeUser;
     private String email;
-
-    public Person(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-
-    }
+    private String status;
 
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_idCredentialsUser")
+    @JoinColumn(name = "fk_idCredentialsUser", referencedColumnName = "id")
     private CredentialsUser credentialsUser;
+
+    @ManyToMany
+    @JoinTable(name="person_roles"
+            ,joinColumns = @JoinColumn(name = "person_id")
+            ,inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
+
 
 }
