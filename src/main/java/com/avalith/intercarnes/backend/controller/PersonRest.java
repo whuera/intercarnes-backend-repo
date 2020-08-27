@@ -19,6 +19,17 @@ public class PersonRest {
     public ResponseEntity<List<Person>> getPersons(){
         return new ResponseEntity(personService.getAllPerson(), HttpStatus.OK);
     }
+
+    @GetMapping("personsbyid")
+    public ResponseEntity<List<Person>> getPersonById(@PathVariable Long id){
+        return new ResponseEntity(personService.getPersonById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("personsbycuit")
+    public ResponseEntity<Person> getPersonByCuit(@PathVariable String cuit){
+        return new ResponseEntity(personService.getPersonByCuit(cuit), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Person> createPerson(@RequestBody Person person){
         person = personService.create(person);
