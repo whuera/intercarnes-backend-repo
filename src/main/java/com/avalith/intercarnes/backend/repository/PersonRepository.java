@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    Optional<Person> findAllById(Long id);
+    Optional<Person> findById(Long id);
 
     @Query(value = "select p from Person p where p.cuit = :cuit", nativeQuery = true)
     Person getPersonByCuit(@Param("cuit") String cuit);

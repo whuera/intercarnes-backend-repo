@@ -14,7 +14,7 @@ import java.util.List;
 public class PersonRest {
     @Autowired
     PersonService personService;
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("persons")
     public ResponseEntity<List<Person>> getPersons(){
         return new ResponseEntity(personService.getAllPerson(), HttpStatus.OK);
