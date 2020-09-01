@@ -35,4 +35,9 @@ public class PersonRest {
         person = personService.create(person);
         return new ResponseEntity<Person>(person, HttpStatus.OK);
     }
+
+    @GetMapping("person/{id}")
+    public ResponseEntity<Person> getPerson(@PathVariable Long id){
+        return new ResponseEntity(personService.getPersonById(id), HttpStatus.OK);
+    }
 }
